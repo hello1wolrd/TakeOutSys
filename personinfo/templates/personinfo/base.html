@@ -1,0 +1,21 @@
+{% load %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{% block title %} {% endblock title %}</title>
+    {% block style%} {% endblock style %}
+</head>
+<body>
+
+{% if user.is_authenticated %}
+    <span>{{ user.get_username }}</span>
+{% else %}
+    <a href="{% url 'users:login' %}">login<>
+    <a href="{% url 'users:signup' %}">signup<>
+{% endif %}
+
+{% block body %} {% endblock body %}
+</body>
+</html>

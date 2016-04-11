@@ -1,0 +1,11 @@
+{% extends "users/base.html" %}
+
+{% block title %}完善个人信息{% endblock title %}
+
+{% block body %}
+<form enctype="multipart/form-data" action="{% url 'profile:config' %}" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="完成">
+</form>
+{% endblock %}

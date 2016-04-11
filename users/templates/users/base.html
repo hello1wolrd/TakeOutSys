@@ -1,0 +1,23 @@
+{% load %}
+{% load staticfiles %}
+{% load profile_tags %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{% block title %} {% endblock title %}</title>
+    {% block style%} {% endblock style %}
+<body>
+
+{% if user.is_authenticated %}
+    <span>新人:{{ user.get_username }}</span>
+
+    <img src="{% get_head_img %}" alt="Smiley face" width="42" height="42">
+{% else %}
+    <a href="{% url 'users:login' %}">login<>
+    <a href="{% url 'users:signup' %}">signup<>
+{% endif %}
+
+{% block body %} {% endblock body %}
+</body>
+</html>
