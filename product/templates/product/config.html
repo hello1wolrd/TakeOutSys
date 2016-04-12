@@ -1,0 +1,14 @@
+{% extends "users/base.html" %}
+
+{% block title %}添加商品{% endblock title %}
+
+{% block body %}
+<form enctype="multipart/form-data" action="{% url 'product:config' %}" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    {% for item in image_form_set %}
+    {{ item.as_p }}
+    {% endfor %}
+    <input type="submit" value="完成">
+</form>
+{% endblock %}

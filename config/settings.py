@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users.apps.UsersConfig',
     'personinfo.apps.PersoninfoConfig',
+    'product.apps.ProductConfig',
+    'image.apps.ImageConfig',
 ]
 
 MIDDLEWARE_CLASSES = [

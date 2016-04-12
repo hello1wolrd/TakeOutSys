@@ -23,5 +23,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^users/', include('users.urls', namespace='users')),
     url(r'^profile/', include('personinfo.urls', namespace='profile')),
+    url(r'^product/', include('product.urls', namespace='product')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -4,27 +4,10 @@ import os
 
 from django.db import models
 from django.contrib.auth.models import User
-from uuid import uuid4
-from django.utils.deconstruct import deconstructible
 
+from utils.img_function import UploadToPathAndRename
 # Create your models here.
 
-@deconstructible
-class UploadToPathAndRename(object):
-
-    def __init__(self, path):
-        self.sub_path = path
-
-    def __call__(self, instance, filename):
-        ext = filename.split('.')[-1]
-        # get filename
-        if instance.pk:
-            filename = '{}.{}'.format(instance.pk, ext)
-        else:
-            # set filename as random string
-            filename = '{}.{}'.format(uuid4().hex, ext)
-    # return the whole path to the file
-        return os.path.join(self.sub_path, filename)
 
 class PersonInfo(models.Model):
     LOVES = (
@@ -36,7 +19,7 @@ class PersonInfo(models.Model):
         ('B', u'男'),
         ('G', u'女'),
     )
-    user = models.OneToOneField(User, unique=True, related_name='profile')
+    user = models.OneToOneField(User, unique=True)
     #send_mails = models.BooleanField(default=False)
     head_img = models.ImageField(upload_to=UploadToPathAndRename('personinfo/imgs/'), default='')
     sex = models.CharField(max_length=1, choices=SEXS)
