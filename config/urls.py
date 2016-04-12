@@ -18,11 +18,15 @@ from django.contrib import admin
 from django.conf.urls.static import static
 
 from config import settings
+from django.views.generic import TemplateView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^$', TemplateView.as_view(template_name="sort/sortshow.html")),
     url(r'^users/', include('users.urls', namespace='users')),
     url(r'^profile/', include('personinfo.urls', namespace='profile')),
     url(r'^product/', include('product.urls', namespace='product')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+

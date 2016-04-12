@@ -1,0 +1,12 @@
+{% extends "users/base.html" %}
+
+{% block title %}首页{% endblock title %}
+
+{% block body %}
+<h2><a href="{% url 'product:books' 1 %}">book</a></h2>
+<h2><a href="{% url 'product:computers' 1 %}">computers</a></h2>
+<h2><a href="{% url 'product:video' 1 %}">video</a></h2>
+<h2><a href="{% url 'product:dress' 1 %}">dress</a></h2>
+<h2><a href="{% url 'product:grocery' 1 %}">grocery</a></h2>
+
+{% endblock %}

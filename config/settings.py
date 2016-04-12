@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'personinfo.apps.PersoninfoConfig',
     'product.apps.ProductConfig',
     'image.apps.ImageConfig',
+    'sort.apps.SortConfig',
 ]
 
 MIDDLEWARE_CLASSES = [

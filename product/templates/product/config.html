@@ -6,6 +6,7 @@
 <form enctype="multipart/form-data" action="{% url 'product:config' %}" method="POST">
     {% csrf_token %}
     {{ form.as_p }}
+    {{ image_form_set.management_form }}
     {% for item in image_form_set %}
     {{ item.as_p }}
     {% endfor %}
