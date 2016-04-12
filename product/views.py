@@ -32,7 +32,8 @@ class ProductConfigView(View):
             price = form.cleaned_data['price']
             score = form.cleaned_data['score']
             description = form.cleaned_data['description']
-            product = Product(title=title, price=price, score=score, description=description)
+            category = form.cleaned_data['category']
+            product = Product(title=title, price=price, score=score, description=description, category=category)
             product.save()
             self.save_all_image(image_form_set, product)
             print "ok-----------"
