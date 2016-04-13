@@ -3,7 +3,7 @@
 {% block title %}添加商品{% endblock title %}
 
 {% block body %}
-<form enctype="multipart/form-data" action="{% url 'product:config' %}" method="POST">
+<form enctype="multipart/form-data" action="{% url 'product:addproduct' %}" method="POST">
     {% csrf_token %}
     {{ form.as_p }}
     {{ image_form_set.management_form }}

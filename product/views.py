@@ -1,19 +1,21 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import View
 from django.forms import formset_factory
+from django.http import HttpResponse
 
 from image.forms import ImageForm
 from .forms import ProductForm
 from image.models import Image
 from .models import Product
+from django.forms.models import model_to_dict
 
 
 # Create your views here.
-class ProductConfigView(View):
+class ProductAddView(View):
     form_class = ProductForm
     image_form = ImageForm
-    template_name = 'product/config.html'
+    template_name = 'product/addproduct.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -44,12 +46,31 @@ class ProductConfigView(View):
         return render(request, self.template_name, {'form': form, 'image_form_set': ImageFormSet()})
 
     def save_all_image(slef, form_set, product):
-        for item in form_set: 
+        for item in form_set:
             image = item.cleaned_data['image']
             description = item.cleaned_data['img_description']
             img_obj = Image(product=product, image=image, description=description)
             img_obj.save()
 
+
+class ProductChangeView(View):
+    form_class = ProductForm
+    image_form = ImageForm
+    template_name = 'product/changeproduct.html'
+
+    def get(self, request, *args, **kwargs):
+        pk = int(kwargs['pk'])
+        product = get_object_or_404(Product, pk=pk)
+        print '++++++++++++ok'
+        form = self.form_class(model_to_dict(product))
+        images = product.image_set.all()
+        return render(request, self.template_name, {'product': product, 
+                                                    'form': form, 'images': images})
+    
+    def post(self, request, *args, **kwargs):
+        pk = int(kwargs['pk'])
+        print '---------%r' % pk
+        return HttpResponse(pk)
 
 class ProductView(View):
     def get(self, request, *args, **kwargs):

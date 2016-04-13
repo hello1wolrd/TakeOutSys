@@ -24,6 +24,7 @@ class PersonInfo(models.Model):
     head_img = models.ImageField(upload_to=UploadToPathAndRename('personinfo/imgs/'), default='')
     sex = models.CharField(max_length=1, choices=SEXS)
     love = models.CharField(max_length=2, choices=LOVES)
+    auth_mail = models.BooleanField(default=False)
 
     def __unicode__(self):
         return "%s - %s" % (self.user.username, self.sex)

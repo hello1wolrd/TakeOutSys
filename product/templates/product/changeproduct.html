@@ -1,0 +1,19 @@
+{% extends "users/base.html" %}
+{% load product_tags %}
+
+{% block title %}修改商品{% endblock title %}
+
+{% block body %}
+<form enctype="multipart/form-data" action="{% url 'product:changeproduct' product.pk %}" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <ul>
+    {% for image in images %}
+    <li id="img-{{ image.id }}">
+    <img src="{{ image|img_url }}">
+    </li>
+    {% endfor %}
+    </ul>
+    <input type="submit" value="完成">
+</form>
+{% endblock %}

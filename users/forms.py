@@ -3,6 +3,8 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 
+from verify.tasks import send_verify_email
+
 class SignupForm(forms.Form):
     username = forms.CharField(label='username', max_length=100,
                               widget=forms.TextInput(attrs={'class': 'TK_input'}), error_messages={
@@ -30,6 +32,8 @@ class SignupForm(forms.Form):
 
     def clean_username(self):
         username = self.cleaned_data.get('username', '')
+        if '@' in username:
+            raise forms.ValidationError(u'非法用户名')
         return username
 
     def clean_password(self):
@@ -67,6 +71,8 @@ class SignupForm(forms.Form):
             print u'创建新用户'
             user = User.objects.create_user(username=username, password=password, email=email)
             user.save()
+            #send email
+            send_verify_email.delay(user.email, user.pk)
         else:
             print u'用户名已存在'
             raise forms.ValidationError(u'用户名已存在')

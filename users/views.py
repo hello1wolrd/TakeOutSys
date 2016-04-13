@@ -15,7 +15,7 @@ from .forms import SignupForm, LoginForm
 class SignupView(View):
     form_class = SignupForm
     template_name = 'users/signup.html'
-    
+
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         return render(request, self.template_name, {'form': form})

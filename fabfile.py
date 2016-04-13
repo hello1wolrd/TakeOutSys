@@ -9,11 +9,11 @@ from fabric.api import settings, abort, env, prefix
 from contextlib import contextmanager as _contextmanager
 
 
-env.BASE = '/root/Desktop/django'
-env.VIR_PATH = os.path.join(env.BASE, 'takeout_env/bin/activate')
-env.PRO_PATH = os.path.join(env.BASE, 'TakeOut')
+env.BASE = '/root/Desktop'
+env.VIR_PATH = '/root/Desktop/django/takeout_env/bin/activate'
+env.PRO_PATH = os.path.join(env.BASE, 'project')
 env.VENDOR_PATH = os.path.join(env.BASE, 'vendor')
-env.LOG = os.path.join(env.BASE, 'logs')
+env.LOG = os.path.join(env.PRO_PATH, 'logs')
 
 env.hosts = ['127.0.0.1']
 
@@ -107,6 +107,7 @@ def install_pyp():
             for item in require_list:
                 try:
                     run_command = "pip install %s" %item
+                    print '---------------============= %r' % run_command
                     sudo(run_command)
                 except FabricException, e:
                     pip_log(run_command)
