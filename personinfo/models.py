@@ -19,7 +19,7 @@ class PersonInfo(models.Model):
         ('B', u'男'),
         ('G', u'女'),
     )
-    user = models.OneToOneField(User, unique=True)
+    user = models.OneToOneField(User, primary_key=True)
     #send_mails = models.BooleanField(default=False)
     head_img = models.ImageField(upload_to=UploadToPathAndRename('personinfo/imgs/'), default='')
     sex = models.CharField(max_length=1, choices=SEXS)

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Django settings for TakeOutSys project.
 
@@ -11,6 +12,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
+import redis
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -132,8 +134,25 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 print '----------> >>> %s' % MEDIA_ROOT
 
-u'''
-    gloal setting
-'''
+
+####################
+# gloal setting
+####################
 LOGIN_URL = 'users/login'
 DEFAULT_HEAD_IMG = '/static/imgs/default/smiley.gif'
+
+
+####################
+# database config
+####################
+REDIS = {
+    'host': '127.0.0.1',
+}
+REDIS_POOL  = redis.ConnectionPool(host=REDIS['host'], port=6379, db=0)
+
+
+####################
+# website config
+####################
+DEFAULT_USER_NAME = u'游客'
+

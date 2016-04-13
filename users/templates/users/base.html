@@ -9,15 +9,7 @@
     {% block style%} {% endblock style %}
 <body>
 
-{% if user.is_authenticated %}
-    <span>新人:{{ user.get_username }}</span>
-
-    <img src="{% get_head_img %}" alt="Smiley face" width="42" height="42">
-{% else %}
-    <a href="{% url 'users:login' %}">login<>
-    <a href="{% url 'users:signup' %}">signup<>
-{% endif %}
-
+{% render_base_skeleton %}
 {% block body %} {% endblock body %}
 </body>
 </html>

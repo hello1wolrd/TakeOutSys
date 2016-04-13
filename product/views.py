@@ -33,10 +33,13 @@ class ProductConfigView(View):
             score = form.cleaned_data['score']
             description = form.cleaned_data['description']
             category = form.cleaned_data['category']
+
             product = Product(title=title, price=price, score=score, description=description, category=category)
             product.save()
+
             self.save_all_image(image_form_set, product)
-            print "ok-----------"
+            #update redis
+            Product.update_items_zrange(category, product)
 
         return render(request, self.template_name, {'form': form, 'image_form_set': ImageFormSet()})
 
@@ -85,5 +88,24 @@ class ProductBooksView(View):
     def get(self, request, *args, **kwargs):
         self.page = int(kwargs.get('page', 0))
         books = Product.get_books(self.page, 10, 'Book')
+
         return render(request, self.template_name, {'books': books})
+
+
+class ProductTopView(View):
+    def get(self, request, *args, **kwargs):
+        self.page = 1
+        tops = Product.get_items_zrange(self.category, self.page, 10)
+        products = Product.get_top_products(tops)
+        return render(request, self.template_name, {'products': products})
+
+    def post(self, request, *args, **kwargs):
+        pass
+
+
+class ProductTopBooksView(ProductTopView):
+    category = 'Book'
+    template_name = 'product/topbooks.html'
+    title = u'销量排行榜'
+
 

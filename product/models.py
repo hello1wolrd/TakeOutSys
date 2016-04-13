@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+import redis
 
 from django.db import models
+from django.conf import settings
 
 #from review.models import Review
 # Create your models here.
@@ -26,8 +28,35 @@ class Product(models.Model):
         start = page * nitem
         end = (page+1) * nitem
         return cls.objects.filter(category=category).order_by('score')[start:end]
-    
+
     @classmethod
     def get_books(cls, page, nitem, category):
         return cls.get_page_items(page, nitem, category)
+    
+    @classmethod
+    def update_items_zrange(cls, category, product):
+        client = redis.Redis(connection_pool=settings.REDIS_POOL)
+        top_key = 'top:' + category
+        client.zadd(top_key, product.pk,  product.score)
+
+    @classmethod
+    def get_top_products(cls, tops):
+        products = list()
+        
+        for (pk, score) in tops:
+            product = Product.objects.get(pk=pk)
+            products.append(product)
+
+        return products
+
+    @classmethod
+    def get_items_zrange(cls, category, page, pageCount):
+        client = redis.Redis(connection_pool=settings.REDIS_POOL)
+        top_key = 'top:' + category
+        page = page - 1
+        start = page * pageCount
+        end = (page+1) * pageCount
+        results = client.zrevrange(top_key, start, end, withscores=True)
+
+        return results
 

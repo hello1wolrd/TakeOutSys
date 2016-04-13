@@ -1,0 +1,12 @@
+{% extends "users/base.html" %}
+
+{% block title %}{{title}}{% endblock title %}
+
+{% block body %}
+{% for product in products %}
+<ul>
+    <li>title: {{product.title}} socre : {{product.score}}</li>
+</ul>
+{% endfor %}
+
+{% endblock %}
