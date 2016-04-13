@@ -3,6 +3,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 
+from personinfo.models import PersonInfo
 from verify.tasks import send_verify_email
 
 class SignupForm(forms.Form):
@@ -72,6 +73,9 @@ class SignupForm(forms.Form):
             print u'创建新用户'
             user = User.objects.create_user(username=username, password=password, email=email)
             user.save()
+            user = authenticate(username=username, password=password)
+            profile = PersonInfo(user=user)
+            profile.save()
             #send email
             send_verify_email.delay(user.email, user.pk)
         else:

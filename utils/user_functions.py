@@ -4,6 +4,9 @@ from django.core.exceptions import ObjectDoesNotExist
 from personinfo.models import PersonInfo
 
 def get_user_profile(user):
+    if user.is_anonymous():
+        return None
+
     try:
         user_profile = user.personinfo
     except ObjectDoesNotExist:

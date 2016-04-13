@@ -22,8 +22,8 @@ class PersonInfo(models.Model):
     user = models.OneToOneField(User, primary_key=True)
     #send_mails = models.BooleanField(default=False)
     head_img = models.ImageField(upload_to=UploadToPathAndRename('personinfo/imgs/'), default='')
-    sex = models.CharField(max_length=1, choices=SEXS)
-    love = models.CharField(max_length=2, choices=LOVES)
+    sex = models.CharField(max_length=1, choices=SEXS, default='B')
+    love = models.CharField(max_length=2, choices=LOVES, default='YY')
     auth_mail = models.BooleanField(default=False)
 
     def __unicode__(self):
