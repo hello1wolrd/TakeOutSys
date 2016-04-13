@@ -152,9 +152,11 @@ REDIS_POOL  = redis.ConnectionPool(host=REDIS['host'], port=6379, db=0)
 
 ####################
 # celery config
+# celery -A config worker -l info
 ####################
 CELERY_RESULT_BACKEND='djcelery.backends.database:DatabaseBackend'
 BROKER_URL = 'redis://localhost:6379/0'
+
 
 ####################
 # website config

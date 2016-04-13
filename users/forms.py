@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate
 from verify.tasks import send_verify_email
 
 class SignupForm(forms.Form):
+
     username = forms.CharField(label='username', max_length=100,
                               widget=forms.TextInput(attrs={'class': 'TK_input'}), error_messages={
                                   'required': u'请输入用户名',
