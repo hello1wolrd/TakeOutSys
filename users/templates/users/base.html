@@ -1,15 +1,30 @@
 {% load %}
 {% load staticfiles %}
 {% load profile_tags %}
+{% load product_tags %}
 <!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>{% block title %} {% endblock title %}</title>
+    
     {% block style%} {% endblock style %}
-<body>
+    {% block scripts%} {% endblock scripts %}
 
+    <script src="{% static "sort/js/jquery-2.2.3.min.js" %}"></script>
+    <script src="{% static "sort/js/angular.min.js" %}"></script>
+    <script src="{% static "sort/js/angular-route.min.js" %}"></script>
+    <script src="{% static "sort/js/module.js" %}"></script>
+    <script src="{% static "product/js/product-controller.js" %}"></script>
+</head>
+
+<body ng-app="app">
 {% render_base_skeleton %}
-{% block body %} {% endblock body %}
+{% render_key_search %}
+<div id='main-body'>
+{% block body %} 
+{% endblock body %}
+</div>
+
 </body>
 </html>

@@ -60,3 +60,11 @@ class Product(models.Model):
 
         return results
 
+    @classmethod
+    def get_items_by_key(cls, key, page, pageCount):
+        page = int(page)
+        page = page - 1
+        start = page * pageCount
+        end = (page+1) * pageCount
+        
+        return cls.objects.filter(title__contains=key)[start:end]

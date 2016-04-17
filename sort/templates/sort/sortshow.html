@@ -1,7 +1,8 @@
 {% extends "users/base.html" %}
 
 {% block title %}首页{% endblock title %}
-
+{% block scripts %}
+{% endblock scripts %}
 {% block body %}
 <h2><a href="{% url 'product:books' 1 %}">book</a></h2>
 <h2><a href="{% url 'product:computers' 1 %}">computers</a></h2>

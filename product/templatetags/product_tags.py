@@ -8,3 +8,11 @@ register = template.Library()
 def img_url(image):
     return image.image.url
 
+
+@register.inclusion_tag('product/key_search.html', takes_context=True)
+def render_key_search(context):
+    u'''
+    key-search
+    '''
+    return {
+    }

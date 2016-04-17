@@ -1,14 +1,20 @@
 # -*- coding: utf-8 -*-
+import json
+from decimal import *
+
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import View
 from django.forms import formset_factory
 from django.http import HttpResponse
+from django.http import JsonResponse
 
 from image.forms import ImageForm
 from .forms import ProductForm
 from image.models import Image
 from .models import Product
 from django.forms.models import model_to_dict
+from django.core import serializers
+
 
 
 # Create your views here.
@@ -130,3 +136,15 @@ class ProductTopBooksView(ProductTopView):
     title = u'销量排行榜'
 
 
+class ProductKeyView(View):
+    def get(self, request, *args, **kwargs):
+        self.key = kwargs['key']
+        self.page = kwargs['page']
+        products = Product.get_items_by_key(self.key, self.page, 10)
+
+        json_data = {
+            'products': list(products.values())
+        }
+        #json_data = serializers.serialize('json', json_data)
+        
+        return JsonResponse(json_data)
