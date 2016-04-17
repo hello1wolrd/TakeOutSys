@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
+import pdb
 from decimal import *
 
 from django.shortcuts import render, get_object_or_404
@@ -70,7 +71,7 @@ class ProductChangeView(View):
         print '++++++++++++ok'
         form = self.form_class(model_to_dict(product))
         images = product.image_set.all()
-        return render(request, self.template_name, {'product': product, 
+        return render(request, self.template_name, {'product': product,
                                                     'form': form, 'images': images})
     
     def post(self, request, *args, **kwargs):

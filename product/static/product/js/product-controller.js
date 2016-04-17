@@ -72,4 +72,20 @@ angular.module('app')
         };
 
 
-    });
+    })
+   .controller('ImageChangeController', function($scope, $http){
+        $scope.img_count = angular.element('#image-change .img-change').length;
+        
+        var reader = new FileReader();
+        imgs = angular.element('#image-change .img-change');
+        imgs.change(function(e){
+            var reader = new FileReader();
+            parent = $(this).parent().get(0);
+            img_doc = $('#'+parent.id).children('img').get(0);
+            reader.onload = function(e) {
+                img_doc.src = e.target.result;
+            };
+            reader.readAsDataURL($(this)[0].files[0]);
+        });
+   });
+ 

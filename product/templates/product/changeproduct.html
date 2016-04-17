@@ -7,13 +7,16 @@
 <form enctype="multipart/form-data" action="{% url 'product:changeproduct' product.pk %}" method="POST">
     {% csrf_token %}
     {{ form.as_p }}
-    <ul>
+    <ol>
+    <div id="image-change" ng-controller="ImageChangeController">
     {% for image in images %}
-    <li id="img-{{ image.id }}">
+    <li id="id-{{ image|img_pk }}">
     <img src="{{ image|img_url }}">
+    <input type="file" class="img-change" name="{{image|img_pk}}" accept="image/*">
     </li>
     {% endfor %}
-    </ul>
+    </ol>
+    </div>
     <input type="submit" value="完成">
 </form>
 {% endblock %}
