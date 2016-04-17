@@ -73,10 +73,7 @@ angular.module('app')
 
 
     })
-   .controller('ImageChangeController', function($scope, $http){
-        $scope.img_count = angular.element('#image-change .img-change').length;
-        
-        var reader = new FileReader();
+    .controller('ImageWrapperController', function($scope, $http){ 
         imgs = angular.element('#image-change .img-change');
         imgs.change(function(e){
             var reader = new FileReader();
@@ -87,5 +84,50 @@ angular.module('app')
             };
             reader.readAsDataURL($(this)[0].files[0]);
         });
+        
+    })
+   .controller('ImageChangeController', function($scope, $http, $element){
+        //$scope.img_count = angular.element('#image-change .img-change').length;
+        $scope.showitem = true;
+        $scope.itemid = '';
+
+        reader = new FileReader();
+        file_inputs = $element.children('.img-change');
+        img_doc = $element.children('img').get(0);
+
+        file_inputs.change(function(e){
+            reader.onload = function(e) {
+                img_doc.src = e.target.result;
+            }
+            $scope.itemid = "999";
+            $scope.change_name();
+            
+        });
+
+        $scope.change_name = function(){
+            if ($scope.itemid.indexOf('mod') <= -1){
+                $scope.itemid = 'mod' + $scope.itemid;
+                alert($scope.itemid);
+            }
+
+        };
+
+        $scope.set_id = function(id) {
+            $scope.itemid = id.toString();
+        };
+
+        $scope.delete = function(){
+            alert($scope.itemid);
+            $scope.showitem = !$scope.showitem;
+            $scope.itemid = 'del' + $scope.itemid;
+        };
+
+        $scope.$watch('itemid', function() {
+          $scope.counter = $scope.itemid;
+        });
+
+        $scope.getid = function(){
+            return $scope.itemid;
+        };
    });
  

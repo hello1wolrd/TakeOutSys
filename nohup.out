@@ -23,3 +23,8 @@
 [5387] 17 Apr 08:11:08.303 # WARNING you have Transparent Huge Pages (THP) support enabled in your kernel. This will create latency and memory usage issues with Redis. To fix this issue run the command 'echo never > /sys/kernel/mm/transparent_hugepage/enabled' as root, and add it to your /etc/rc.local in order to retain the setting after a reboot. Redis must be restarted after THP is disabled.
 [5387] 17 Apr 08:11:08.303 # WARNING: The TCP backlog setting of 511 cannot be enforced because /proc/sys/net/core/somaxconn is set to the lower value of 128.
 [5387] 17 Apr 08:11:08.303 * The server is now ready to accept connections on port 6379
+[5387] 17 Apr 15:01:54.839 * 1 changes in 3600 seconds. Saving...
+[5387] 17 Apr 15:01:54.848 * Background saving started by pid 13956
+[13956] 17 Apr 15:01:54.867 * DB saved on disk
+[13956] 17 Apr 15:01:54.868 * RDB: 4 MB of memory used by copy-on-write
+[5387] 17 Apr 15:01:54.950 * Background saving terminated with success

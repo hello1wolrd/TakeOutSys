@@ -73,11 +73,39 @@ class ProductChangeView(View):
         images = product.image_set.all()
         return render(request, self.template_name, {'product': product,
                                                     'form': form, 'images': images})
-    
+    def add_image(self, request, pk, uploadedfile):
+        description = request.POST.get(pk, '')
+        image = Image(image=uploadedfile, description=description)
+        image.save()
+
+    def modify_image(self, request, pk, uploadedfile):
+        description = request.POST.get(pk, '')
+        try:
+            image = Image.objects.get(pk=pk)
+            image.image = uploadedfile
+            image.description = description
+            image.save()
+        except Image.DoesNotExist:
+            print "---------error_______"
+            pass
+
+    def change_images(self, images, request):
+        for (key, val) in images.items():
+            if 'new' in key:
+                self.add_image(request, key, val)
+            else:
+                self.modify_image(request, key, val)
+            
     def post(self, request, *args, **kwargs):
         pk = int(kwargs['pk'])
         print '---------%r' % pk
-        return HttpResponse(pk)
+        form = self.form_class(request.POST)
+        images = request.FILES
+        if form.is_valid():
+            self.change_images(images, request)
+            return HttpResponse(pk)
+
+        return HttpResponse('error')
 
 class ProductView(View):
     def get(self, request, *args, **kwargs):
