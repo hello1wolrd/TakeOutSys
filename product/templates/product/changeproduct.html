@@ -7,22 +7,16 @@
 <form enctype="multipart/form-data" action="{% url 'product:changeproduct' product.pk %}" method="POST">
     {% csrf_token %}
     {{ form.as_p }}
-    <ol>
-        <div id="image-change" ng-controller="ImageWrapperController">
-        {% for image in images %}
-        <li id="id-{{ image|img_pk }}" ng-show="showitem" ng-controller="ImageChangeController">
-            <img src="{{ image|img_url }}">
-            <textarea rows="4" cols="50" name="{{itemid}}" ng-init="set_id({{image|img_pk}})" value="{{image.description}}">
-            </textarea>
-            {%verbatim%}<input type="file" class="img-change" name="{{itemid}}"  accept="image/*"> {% endverbatim %}
-            <button type='button' ng-click="delete({{image.pk}})">delete</button>
-            {%verbatim%}<span >{{itemid}}</span>{%endverbatim%}
-        </li>
-        {% endfor %}
+        <image-multiple>
 
-        <button ng-click="add()">add</button>
-        </div>
-    </ol>
+            {% for image in images %}
+            <image-single  ng-init="initval('1111')" id="id" imgdes="{{image.description}}" imgurl="{{image|img_url}}" imgfile="picFile{{image|img_pk}}">
+             </image-single>
+            {% endfor %}
+                   
+        </image-multiple>
+
+
 
     <input type="submit" value="完成">
 </form>

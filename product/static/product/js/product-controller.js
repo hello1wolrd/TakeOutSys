@@ -73,61 +73,80 @@ angular.module('app')
 
 
     })
-    .controller('ImageWrapperController', function($scope, $http){ 
-        imgs = angular.element('#image-change .img-change');
-        imgs.change(function(e){
-            var reader = new FileReader();
-            parent = $(this).parent().get(0);
-            img_doc = $('#'+parent.id).children('img').get(0);
-            reader.onload = function(e) {
-                img_doc.src = e.target.result;
-            };
-            reader.readAsDataURL($(this)[0].files[0]);
-        });
-        
+    .factory('handleName', function(){
+
+        var basehandler = function(){};
+
+        basehandler.changename = function(name, operate){
+            res = name.split('-')
+            res[1] = operate;
+            new_name = res.join('-');
+            return new_name;
+        };
+
+        basehandler.modifyname = function(scope){
+            scope.id = basehandler.changename(scope, 'modify');
+        };
+
+        basehandler.deletename = function(scope){
+            scope.id = basehandler.changename(scope, 'delete');
+        };
+
+        basehandler.addname = function(scope){
+            scope.id = basehandler.changename(scope, 'add');
+        };
+
+        return basehandler;
     })
-   .controller('ImageChangeController', function($scope, $http, $element){
-        //$scope.img_count = angular.element('#image-change .img-change').length;
-        $scope.showitem = true;
-        $scope.itemid = '';
+    .value("img_list", {})
+    .directive("imageSingle", function(){
+       return { 
+           resctrict: 'E',
+           templateUrl: '/static/product/html/imageinfo.html',
+           transclude: true,
+           scope: {
+                imgurl: '@',
+                imgdes: '@',
+                id: '=',
+           },
+           controller: function($scope, $element, handleName){
+                $scope.id;
+                $scope.fieldshow = true;
 
-        reader = new FileReader();
-        file_inputs = $element.children('.img-change');
-        img_doc = $element.children('img').get(0);
+                $scope.initval = function(id){
+                    alert(id);
+                    $scope.id = id;
+                }
 
-        file_inputs.change(function(e){
-            reader.onload = function(e) {
-                img_doc.src = e.target.result;
-            }
-            $scope.itemid = "999";
-            $scope.change_name();
-            
-        });
+                $scope.delete = function(){
+                    $scope.fieldshow = false;
+                    handleName.deletename($scope);
+                };
+           },
+           
+       } 
+    })
+    .directive("imageMultiple", function(){
+        return {
+            transclude: true,
+            resctrict: 'E',
+            templateUrl: '/static/product/html/imagelist.html'
+        }
+    })
+    .directive('insideTest', function(){
+        return {
+            resctrict:'E',
+            template: '<span>value: {{val}}, title: {{title}}</span>',
+            transclude: true,
+            scope: {
+                title: '@',
+                val: '=',
+            },
 
-        $scope.change_name = function(){
-            if ($scope.itemid.indexOf('mod') <= -1){
-                $scope.itemid = 'mod' + $scope.itemid;
-                alert($scope.itemid);
-            }
-
-        };
-
-        $scope.set_id = function(id) {
-            $scope.itemid = id.toString();
-        };
-
-        $scope.delete = function(){
-            alert($scope.itemid);
-            $scope.showitem = !$scope.showitem;
-            $scope.itemid = 'del' + $scope.itemid;
-        };
-
-        $scope.$watch('itemid', function() {
-          $scope.counter = $scope.itemid;
-        });
-
-        $scope.getid = function(){
-            return $scope.itemid;
-        };
-   });
- 
+    } 
+    })
+    .controller('insideController', function($scope){
+        $scope.val;
+        
+        $scope.init = function(val){alert(val);$scope.val=val;};
+    });
