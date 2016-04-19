@@ -3,3 +3,4 @@ redis
 Pillow
 celery
 django-celery
+mongoengine

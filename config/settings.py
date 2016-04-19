@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 import os
 import redis
+from mongoengine import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -46,6 +47,8 @@ INSTALLED_APPS = [
     'image.apps.ImageConfig',
     'sort.apps.SortConfig',
     'verify.apps.VerifyConfig',
+    'inventory.apps.InventoryConfig',
+    'shopcart.apps.ShopcartConfig',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -140,6 +143,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 ####################
 LOGIN_URL = 'users:login'   #default login_required
 DEFAULT_HEAD_IMG = '/static/imgs/default/smiley.gif'
+
+
+####################
+# gloal mongoengine
+####################
+connect('takeoutsys')
 
 
 ####################
