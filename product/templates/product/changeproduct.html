@@ -7,15 +7,22 @@
 <form enctype="multipart/form-data" action="{% url 'product:changeproduct' product.pk %}" method="POST">
     {% csrf_token %}
     {{ form.as_p }}
-        <image-multiple>
+    	<div ng-controller="NewImageListController">
+        <image-multiple addnew="addnew()">
 
             {% for image in images %}
-            <image-single  ng-init="initval('1111')" id="id" imgdes="{{image.description}}" imgurl="{{image|img_url}}" imgfile="picFile{{image|img_pk}}">
+            <div ng-controller="SingleImageController">
+            <image-single  ng-init="initold('{{image|img_pk}}')" fieldshow="fieldshow" id="id" delete="delete()" modify="modify()" imgdes="{{image.description}}" imgurl="{{image|img_url}}" imgfile="picFile{{image|img_pk}}">
              </image-single>
+             </div>
             {% endfor %}
+
+            <new-image-list >
+            </new-image-list>
                    
         </image-multiple>
-
+        </div>
+ 
 
 
     <input type="submit" value="完成">

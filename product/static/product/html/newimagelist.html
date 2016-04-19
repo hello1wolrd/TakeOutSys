@@ -1,0 +1,6 @@
+
+<div ng-repeat="item in imagelist" ng-controller="SingleImageController">
+<strong>-----{{item.id}}</strong>
+<image-single ng-init="initnew(item.id)" fieldshow="fieldshow" id="id" delete="delete_element()">
+</image-single>
+</div>

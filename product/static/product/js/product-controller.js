@@ -78,29 +78,49 @@ angular.module('app')
         var basehandler = function(){};
 
         basehandler.changename = function(name, operate){
-            res = name.split('-')
-            res[1] = operate;
+            res = name.split('-');
+            res[0] = operate;
             new_name = res.join('-');
             return new_name;
         };
 
         basehandler.modifyname = function(scope){
-            scope.id = basehandler.changename(scope, 'modify');
+            scope.id = basehandler.changename(scope.id, 'modify');
         };
 
         basehandler.deletename = function(scope){
-            scope.id = basehandler.changename(scope, 'delete');
+            console.log('>>>>>> deletename');
+            scope.id = basehandler.changename(scope.id, 'delete');
         };
 
         basehandler.addname = function(scope){
-            scope.id = basehandler.changename(scope, 'add');
+            scope.id = basehandler.changename(scope.id, 'add');
         };
 
         return basehandler;
     })
-    .value("img_list", {})
+    .value("imagelist", [])
+    .value("globalid", 0)
+    .directive("newImageList", function(){
+        return {
+            resctrict: 'E',
+            templateUrl: '/static/product/html/newimagelist.html',
+        }
+    })
+    .controller('NewImageListController', function($scope, $element, handleName, imagelist, globalid){
+        
+        $scope.fieldshow = true;
+        $scope.imagelist = imagelist;
+
+        $scope.addnew = function(){
+            var id = '7dajfio' + (globalid++).toString();
+            imginfo = {'id': id};
+            imagelist.push(imginfo);
+        }
+
+    })
     .directive("imageSingle", function(){
-       return { 
+       return {
            resctrict: 'E',
            templateUrl: '/static/product/html/imageinfo.html',
            transclude: true,
@@ -108,29 +128,60 @@ angular.module('app')
                 imgurl: '@',
                 imgdes: '@',
                 id: '=',
+                fieldshow: '=',
+                delete: '&',
+                modify: '&',
            },
-           controller: function($scope, $element, handleName){
-                $scope.id;
-                $scope.fieldshow = true;
-
-                $scope.initval = function(id){
-                    alert(id);
-                    $scope.id = id;
-                }
-
-                $scope.delete = function(){
-                    $scope.fieldshow = false;
-                    handleName.deletename($scope);
-                };
-           },
-           
        } 
+    })
+    .controller('SingleImageController', function($scope, $element, handleName, imagelist){
+        
+        $scope.fieldshow = true;
+
+        $scope.initold = function(id){
+
+            $scope.id = 'old-' + id;
+        }
+
+        $scope.initnew = function(id){
+            
+            $scope.raw_id = id;
+            $scope.id = 'new-' + id;
+            console.log("add new id: " + $scope.id);
+        }
+
+        $scope.delete = function(){
+            console.log('>>>>>> delete name');
+            $scope.fieldshow = false;
+            handleName.deletename($scope);
+        };
+
+        $scope.delete_element = function(){
+            console.log('>>>>>> delete element');
+            imagelist.map(function(item, index){
+                console.log(item);
+
+                if (item.id === $scope.raw_id){
+                    imagelist.splice(index, 1);
+                    console.log('>>>>>> delete list');
+                }
+            });
+            
+        };
+
+        $scope.modify = function(){
+            console.log(">>>>>> modify");
+            handleName.modifyname($scope);
+        }
     })
     .directive("imageMultiple", function(){
         return {
             transclude: true,
             resctrict: 'E',
-            templateUrl: '/static/product/html/imagelist.html'
+            templateUrl: '/static/product/html/imagelist.html',
+            scope: {
+                addnew: '&',
+            }
         }
     })
     .directive('insideTest', function(){
@@ -142,7 +193,6 @@ angular.module('app')
                 title: '@',
                 val: '=',
             },
-
     } 
     })
     .controller('insideController', function($scope){

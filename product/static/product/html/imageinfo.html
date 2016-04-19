@@ -1,11 +1,11 @@
-<fieldset ng-show="fieldshow">
+<fieldset >
 
 <legend>modify image infor</legend>
 <textarea name="des-{{id}}">
 </textarea>
 
 <img ngf-thumbnail="imgfile || imgurl"><br>
-<input name="img-{{id}}" type="file" ngf-select ng-model="imgfile" ng-change="modifyname()">
+<input name="img-{{id}}" type="file" ngf-select ng-model="imgfile" ng-change="modify()">
 <br>
 <button type="button" ng-click="delete()">delete</button>
 <div ng-transclude></div>
