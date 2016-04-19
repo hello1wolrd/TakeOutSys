@@ -5,9 +5,14 @@ from decimal import *
 
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import View
+from django.contrib.auth.models import Group
 from django.forms import formset_factory
 from django.http import HttpResponse
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.utils.decorators import method_decorator
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.utils import six
 
 from image.forms import ImageForm
 from .forms import ProductForm
@@ -59,11 +64,47 @@ class ProductAddView(View):
             img_obj.save()
 
 
+def custom_perms(perm, group, app, login_url=None, raise_exception=True):
+    """
+    """
+    def check_perms(user):
+        a = user
+        if isinstance(perm, six.string_types):
+            perms = [perm, ]
+        else:
+            perms = perm
+
+        if isinstance(group, list):
+            groups = group
+        else:
+            groups = [group, ]
+
+        appname = app + '.'
+        perm_list = [appname + item for item in perms]
+        
+        for groupname in groups:
+            group_obj = Group.objects.get(name=groupname)
+            group_perms = [appname + item.codename for item in group_obj.permissions.all()]
+            perm_list.extend(group_perms)
+
+        if user.has_perms(perm_list):
+            return True
+
+        return False
+
+        if raise_exception:
+            raise PermissionDenied
+
+        return False
+    return user_passes_test(check_perms, login_url=login_url)
+
 class ProductChangeView(View):
     form_class = ProductForm
     image_form = ImageForm
     template_name = 'product/changeproduct.html'
 
+    @method_decorator(custom_perms("delete_product", ['config_product'], 'product'))
+    @method_decorator(login_required)
     def get(self, request, *args, **kwargs):
         pk = int(kwargs['pk'])
         product = get_object_or_404(Product, pk=pk)

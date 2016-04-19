@@ -4,6 +4,7 @@ import redis
 
 from django.db import models
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 
 #from review.models import Review
 # Create your models here.
@@ -21,6 +22,11 @@ class Product(models.Model):
     category = models.CharField(max_length=10, choices=CATEGORIES )
     description = models.TextField(max_length=500, default='')
     #review = ForeignKey(Review, unique=True)
+
+    class Meta:
+        permissions = (
+            ('read_product', 'can read product'),
+        )
     
     @classmethod
     def get_page_items(cls, page, nitem, category):

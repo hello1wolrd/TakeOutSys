@@ -138,7 +138,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 ####################
 # gloal setting
 ####################
-LOGIN_URL = 'users/login'
+LOGIN_URL = 'users:login'   #default login_required
 DEFAULT_HEAD_IMG = '/static/imgs/default/smiley.gif'
 
 

@@ -11,6 +11,7 @@
         <image-multiple addnew="addnew()">
 
             {% for image in images %}
+            <span>{{image.description}}</span>
             <div ng-controller="SingleImageController">
             <image-single  ng-init="initold('{{image|img_pk}}')" fieldshow="fieldshow" id="id" delete="delete()" modify="modify()" imgdes="{{image.description}}" imgurl="{{image|img_url}}" imgfile="picFile{{image|img_pk}}">
              </image-single>
