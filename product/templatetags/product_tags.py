@@ -6,7 +6,12 @@ register = template.Library()
 
 @register.filter
 def img_url(image):
-    return image.image.url
+    image_url = ''
+    try:
+        image_url = image.image.url
+    except ValueError:
+        image_url = ''
+    return image_url
 
 
 @register.filter

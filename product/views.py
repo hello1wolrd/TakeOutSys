@@ -17,7 +17,6 @@ from django.forms.models import model_to_dict
 from django.core import serializers
 
 
-
 # Create your views here.
 class ProductAddView(View):
     form_class = ProductForm
@@ -73,14 +72,10 @@ class ProductChangeView(View):
         images = product.image_set.all()
         return render(request, self.template_name, {'product': product,
                                                     'form': form, 'images': images})
-    def add_image(self, request, pk, uploadedfile):
-        description = request.POST.get(pk, '')
-        image = Image(image=uploadedfile, description=description)
-        image.save()
 
-    def modify_image(self, request, pk, uploadedfile):
-        description = request.POST.get(pk, '')
+    def modify_image(self, pk, uploadedfile, description):
         try:
+            pk = int(pk)
             image = Image.objects.get(pk=pk)
             image.image = uploadedfile
             image.description = description
@@ -89,23 +84,95 @@ class ProductChangeView(View):
             print "---------error_______"
             pass
 
-    def change_images(self, images, request):
-        for (key, val) in images.items():
-            if 'new' in key:
-                self.add_image(request, key, val)
-            else:
-                self.modify_image(request, key, val)
-            
+    def add_image(self, uploadedfile, description, product):
+        u'''
+        add new image
+        '''
+        img = Image(product=product, description=description)
+        img.image = uploadedfile
+        img.save()
+
+    def delete_image(self, pk):
+        try:
+            pk = int(pk)
+            Image.objects.get(pk=pk).delete()
+        except Image.DoesNotExist:
+            print '------------ error'
+            pass
+    
+    def get_img_key(self, key_list):
+        img_key = '-'.join(list(['img', key_list[1], key_list[2] ]))
+        return img_key
+
+    def check_key(self, key, request, product):
+        key_list = key.split('-')
+
+        if len(key_list) != 3:
+            return  0
+
+        if 'des' not in key:
+            return 0
+
+        if key_list[1] == 'old':
+            #no change
+            return 1
+
+        if key_list[1] == 'modify':
+            pk = key_list[2]
+            img_key = self.get_img_key(key_list)
+            uploadedfile = request.FILES.get(img_key, None)
+            description = request.POST.get(key, None)
+            self.modify_image(pk, uploadedfile, description)
+            return 1
+
+        if key_list[1] == 'new':
+            img_key = self.get_img_key(key_list)
+            uploadedfile = request.FILES.get(img_key, None)
+            description = request.POST.get(key, None)
+            self.add_image(uploadedfile, description, product)
+            return 1
+
+        if key_list[1] == 'delete':
+            pk = key_list[2]
+            self.delete_image(pk)
+            return -1
+
+        return False
+
+    def handle_images(self, request, product, max=5):
+        #pairs
+        count = 0
+        for (key, val) in request.POST.items():
+            count = count + self.check_key(key, request, product)
+
+        if count > 5:
+            return u'max-----images'
+
+        return None
+
     def post(self, request, *args, **kwargs):
         pk = int(kwargs['pk'])
         print '---------%r' % pk
         form = self.form_class(request.POST)
         images = request.FILES
+
         if form.is_valid():
-            self.change_images(images, request)
-            return HttpResponse(pk)
+            product = get_object_or_404(Product, pk=pk)
+            product.title = form.cleaned_data.get('title', '')
+            product.price = form.cleaned_data.get('price', '')
+            product.score = form.cleaned_data.get('score', '')
+            product.category = form.cleaned_data.get('category', '')
+            product.description = form.cleaned_data.get('description', '')
+
+            product.save()
+
+            if self.handle_images(request, product) != None:
+                return HttpResponse('out over max')
+            else:
+                return HttpResponse('ok-----------')
 
         return HttpResponse('error')
+
 
 class ProductView(View):
     def get(self, request, *args, **kwargs):
@@ -177,3 +244,5 @@ class ProductKeyView(View):
         #json_data = serializers.serialize('json', json_data)
         
         return JsonResponse(json_data)
+
+

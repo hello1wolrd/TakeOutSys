@@ -1,7 +1,8 @@
 <fieldset >
 
 <legend>modify image infor</legend>
-<textarea name="des-{{id}}">
+<textarea name="des-{{id}}" ng-change="modify()" >
+{{imgdes}}
 </textarea>
 
 <img ngf-thumbnail="imgfile || imgurl"><br>
