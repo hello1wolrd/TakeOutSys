@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^profile/', include('personinfo.urls', namespace='profile')),
     url(r'^product/', include('product.urls', namespace='product')),
     url(r'^verify/', include('verify.urls', namespace='verify')),
+    url(r'^payment/', include('payment.urls', namespace='payment')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

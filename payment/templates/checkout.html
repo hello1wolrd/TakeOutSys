@@ -1,0 +1,15 @@
+{% extends "users/base.html" %}
+{% load staticfiles %}
+
+{% block title %}checkout{% endblock title %}
+{% block extrascripts %}
+
+{% endblock extrascripts %}
+	
+{% block body %}
+{% for item in cart %}
+{% endfor %}
+
+{# shopping cart #}
+<cart-list></cart-list>
+{% endblock %}

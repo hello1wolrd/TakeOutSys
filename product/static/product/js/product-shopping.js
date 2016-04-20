@@ -86,12 +86,40 @@ app.directive('itemshow', function(){
 	}
 });
 
+app.factory('gocheckout', function($http, $q){
+    return function(url, data){
+
+        return $http.post(url, data)
+            .then(function(response){
+                console.log(response.data);
+                return response.data;
+            }, function(response){
+                return $q.reject(response.status + " " +response.data.error);
+            });
+    }
+})
+
 app.directive('cartList', function(){
 	return {
 		restrict: 'E',
 		templateUrl: '/static/product/html/cartList.html',
-		controller: function($scope, cart){
+		controller: function($scope, cart, gocheckout){
 			$scope.cart = cart;
+			$scope.url = '/payment/pending'
+
+	        $scope.gocheckout = function(page){ 
+	        	data = {
+	        		cart: cart,
+	        	}
+	            gocheckout($scope.url, data)
+	                .then(function(data){
+	                    console.log("success");
+	                }, function(notice){
+	                    $scope.notice = notice;
+	                    console.log(notice);
+	                });
+	        };
+
 		}
 	}
 });

@@ -1,5 +1,5 @@
 from __future__ import unicode_literals
-import datetime
+from datetime import *
 
 from django.db import models
 from mongoengine import *
@@ -29,11 +29,13 @@ class ShopCart(Document):
 
     @classmethod
     def get_cart(cls, user):
-        cart_obj
+        cart_obj = None
         try:
             cart_obj = cls.objects.get(userid=user.id)
         except cls.DoesNotExist:
             cart_obj = cls.create_cart(user.id)
+
+        return cart_obj
 
     @classmethod
     def add_item_to_cart(cart_obj, product_id, qty, detail):
