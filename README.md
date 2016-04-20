@@ -45,8 +45,8 @@
 安装指令：
 ====
 需求条件：
-安装Python Package(具体查看requirement.txt)
-可以使用fabric一键安装pypi以及系统需求的软件包(我在centos上开发， 所以目前只有centos7版本)<br>
+安装Python Package(具体查看requirement.txt)<br>
+可以使用fabric一键安装pyp以及系统需求的软件包(我在centos上开发， 所以目前只有centos7版本)<br>
 另外建议安装ipython<br>
 
 安装MongoDB<br>
