@@ -45,17 +45,8 @@
 安装指令：
 ====
 需求条件：
-安装Python Package:
-celery==3.1.23
-Django==1.9.5
-django-celery==3.1.17
-mongoengine==0.10.6
-MySQL-python==1.2.5
-Pillow==3.2.0
-pymongo==3.2.2
-PyYAML==3.11
-redis==2.10.5
-可以使用fabric一键安装pypi以及系统需求的软件包（我在centos上开发， 所以目前只有centos7版本）<br>
+安装Python Package(具体查看requirement.txt)
+可以使用fabric一键安装pypi以及系统需求的软件包(我在centos上开发， 所以目前只有centos7版本)<br>
 另外建议安装ipython<br>
 
 安装MongoDB<br>
