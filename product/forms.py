@@ -14,4 +14,5 @@ class ProductForm(forms.Form):
     price = forms.CharField(label=u'产品价格', max_length=20)
     score = forms.FloatField(label=u'产品评分')
     category = forms.CharField(label=u'产品分类', max_length=10, widget=forms.Select(choices=CATEGORIES))
-    description = forms.CharField(label=u'产品描述', max_length=500,widget=forms.Textarea)
+    description = forms.CharField(label=u'产品描述', max_length=500, widget=forms.Textarea)
+    inventory_qty = forms.IntegerField(label=u'商品库存')

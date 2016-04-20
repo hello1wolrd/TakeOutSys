@@ -38,7 +38,7 @@ angular.module('app')
                     tmp_products = data.products;
                     console.log(tmp_products);
                     if (tmp_products.length == 0){
-                        alert("nonono");
+                        alert("nothing here");
                         return ;
                     }
                     $scope.products = tmp_products;

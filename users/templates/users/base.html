@@ -7,17 +7,17 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>{% block title %} {% endblock title %}</title>
-    
-    {% block style%} {% endblock style %}
-    {% block scripts%} {% endblock scripts %}
 
     <script src="{% static "sort/js/jquery-2.2.3.min.js" %}"></script>
     <script src="{% static "sort/js/angular.js" %}"></script>
-    <script src="{% static "sort/js/angular-route.min.js" %}"></script>
-    <script src="{% static "sort/js/module.js" %}"></script>
     <script src="{% static "sort/js/ng-file-upload-shim.js" %}"></script>
     <script src="{% static "sort/js/ng-file-upload.js" %}"></script>
+    <script src="{% static "sort/js/module.js" %}"></script>
     <script src="{% static "product/js/product-controller.js" %}"></script>
+    <script src="{% static "product/js/product-shopping.js" %}"></script>
+    
+    {% block extrascripts%} {% endblock extrascripts %}
+    {% block style%} {% endblock style %}
 </head>
 
 <body ng-app="app">
@@ -29,3 +29,4 @@
 </div>
 
 </body>
+</html>

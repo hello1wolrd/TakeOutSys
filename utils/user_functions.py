@@ -20,9 +20,10 @@ def get_user_head(user_profile):
         return settings.DEFAULT_HEAD_IMG
     else:
         if user_profile.head_img != '':
-            return settings.MEDIA_URL + user_profile.head_img
+            return user_profile.head_img.url
 
         return settings.DEFAULT_HEAD_IMG
+
 
 def get_user_nickname(user, user_profile):
     if None in (user, user_profile):

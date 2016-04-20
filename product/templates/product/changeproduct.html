@@ -1,7 +1,10 @@
 {% extends "users/base.html" %}
+{% load staticfiles %}
 {% load product_tags %}
-
 {% block title %}修改商品{% endblock title %}
+{% block extrascripts %}
+    
+{% endblock extrascripts %}
 
 {% block body %}
 <form enctype="multipart/form-data" action="{% url 'product:changeproduct' product.pk %}" method="POST">

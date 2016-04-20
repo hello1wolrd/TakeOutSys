@@ -13,13 +13,14 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils import six
+from django.forms.models import model_to_dict
+from django.core import serializers
 
 from image.forms import ImageForm
 from .forms import ProductForm
 from image.models import Image
 from .models import Product
-from django.forms.models import model_to_dict
-from django.core import serializers
+from inventory.models import Inventory
 
 
 # Create your views here.
@@ -37,7 +38,6 @@ class ProductAddView(View):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         ImageFormSet = formset_factory(self.image_form)
-
         image_form_set = ImageFormSet(request.POST, request.FILES)
         
         if image_form_set.is_valid() and form.is_valid():
@@ -49,17 +49,25 @@ class ProductAddView(View):
 
             product = Product(title=title, price=price, score=score, description=description, category=category)
             product.save()
-
+            self.save_inventory(form, product)
             self.save_all_image(image_form_set, product)
             #update redis
             Product.update_items_zrange(category, product)
 
         return render(request, self.template_name, {'form': form, 'image_form_set': ImageFormSet()})
 
+    def save_inventory(self, form, product):
+        inventory_qty = form.cleaned_data['inventory_qty']
+        Inventory.create_inventory(product, inventory_qty)
+
     def save_all_image(slef, form_set, product):
         for item in form_set:
-            image = item.cleaned_data['image']
-            description = item.cleaned_data['img_description']
+            image = item.cleaned_data.get('image', None)
+            description = item.cleaned_data.get('img_description', None)
+            
+            if image is None or description is None:
+                continue
+
             img_obj = Image(product=product, image=image, description=description)
             img_obj.save()
 
@@ -103,7 +111,7 @@ class ProductChangeView(View):
     image_form = ImageForm
     template_name = 'product/changeproduct.html'
 
-    @method_decorator(custom_perms("delete_product", ['config_product'], 'product'))
+    #@method_decorator(custom_perms("delete_product", ['config_product'], 'product'))
     @method_decorator(login_required)
     def get(self, request, *args, **kwargs):
         pk = int(kwargs['pk'])

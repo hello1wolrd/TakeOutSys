@@ -1,13 +1,16 @@
 {% extends "users/base.html" %}
+{% load staticfiles %}
 
 {% block title %}商城-书籍{% endblock title %}
+{% block extrascripts %}
 
+{% endblock extrascripts %}
+	
 {% block body %}
 {% for book in books %}
-<ul>
-<li>{{book.title}}</li>
-<li>{{ book.description }}</li>
-</ul>
+<itemshow id="{{book.id}}" title="{{book.title}}" price="{{book.price}}" description="{{book.description}}" imgurl="" inventory="10" ></itemshow>
 {% endfor %}
 
+{# shopping cart #}
+<cart-list></cart-list>
 {% endblock %}

@@ -21,6 +21,7 @@ class Product(models.Model):
     score = models.FloatField(default=10.0)
     category = models.CharField(max_length=10, choices=CATEGORIES )
     description = models.TextField(max_length=500, default='')
+    inventory_id = models.CharField(max_length=30, default='')
     #review = ForeignKey(Review, unique=True)
 
     class Meta:
