@@ -4,11 +4,12 @@
 **********
 
 
+
 技术点：
 ====
 <ol>
+后端
 <li><h5>Python<h5></li>
-<li><h5>AngularJs<h5></li>
 <li><h5>DJango<h5></li>
 <li><h5>django-unit-test<h5></li>
 <li><h5>MongoDB<h5></li>
@@ -16,10 +17,17 @@
 <li><h5>Redis<h5></li>
 <li><h5>Celery<h5></li>
 <li><h5>SQL<h5></li>
+<li><h5>fabric<h5></li>
+<li><h5>logger<h5></li>
+
+前端
+<li><h5>AngularJs<h5></li>
 <li><h5>Bootstrap<h5></li>
 <li><h5>jQuery<h5></li>
-<li><h5>fabric<h5></li>
+<li><h5>HTML5<h5></li>
+<li><h5>CSS3<h5></li>
 </ol>
+
 
 
 基本规范：
