@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'verify.apps.VerifyConfig',
     'inventory.apps.InventoryConfig',
     'shopcart.apps.ShopcartConfig',
+    'payment.apps.paymentConfig',
 ]
 
 MIDDLEWARE_CLASSES = [
