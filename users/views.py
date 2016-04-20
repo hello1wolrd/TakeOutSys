@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-
+from config.settings import prolog
 from .forms import SignupForm, LoginForm
 # Create your views here.
 
@@ -30,7 +30,7 @@ class SignupView(View):
             login(request, new_user)
             #return HttpResponseRedirect('')
             config_url = reverse('profile:config')
-            print "Redirect to TakeOut-index reverse"
+            prolog.debug("Redirect to TakeOut-index reverse")
             return HttpResponseRedirect(config_url)
 
         return render(request, self.template_name, {'form': form})
@@ -50,7 +50,7 @@ class LoginView(View):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            print "Redirect to old user"
+            prolog.debug("Redirect to old user")
 
         return render(request, self.template_name, {'form': form})
 

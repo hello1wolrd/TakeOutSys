@@ -21,6 +21,7 @@ from .forms import ProductForm
 from image.models import Image
 from .models import Product
 from inventory.models import Inventory
+from config.settings import prolog
 
 
 # Create your views here.
@@ -116,7 +117,7 @@ class ProductChangeView(View):
     def get(self, request, *args, **kwargs):
         pk = int(kwargs['pk'])
         product = get_object_or_404(Product, pk=pk)
-        print '++++++++++++ok'
+        prolog.debug('++++++++++++ok')
         form = self.form_class(model_to_dict(product))
         images = product.image_set.all()
         return render(request, self.template_name, {'product': product,
@@ -130,7 +131,7 @@ class ProductChangeView(View):
             image.description = description
             image.save()
         except Image.DoesNotExist:
-            print "---------error_______"
+            prolog.debug("---------error_______")
             pass
 
     def add_image(self, uploadedfile, description, product):
@@ -146,7 +147,7 @@ class ProductChangeView(View):
             pk = int(pk)
             Image.objects.get(pk=pk).delete()
         except Image.DoesNotExist:
-            print '------------ error'
+            prolog.debug('------------ error')
             pass
     
     def get_img_key(self, key_list):
@@ -201,7 +202,7 @@ class ProductChangeView(View):
 
     def post(self, request, *args, **kwargs):
         pk = int(kwargs['pk'])
-        print '---------%r' % pk
+        prolog.debug('---------%r' % pk)
         form = self.form_class(request.POST)
         images = request.FILES
 

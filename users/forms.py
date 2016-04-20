@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate
 
 from personinfo.models import PersonInfo
 from verify.tasks import send_verify_email
+from config.settings import prolog
 
 class SignupForm(forms.Form):
 
@@ -64,13 +65,13 @@ class SignupForm(forms.Form):
         except User.DoesNotExist:
             pass
         else:
-            print u'邮箱已经注册'
+            prolog.debug(u'邮箱已经注册')
             raise forms.ValidationError(u'邮箱已注册')
 
         try:
             user = User.objects.get(username=username)
         except User.DoesNotExist:
-            print u'创建新用户'
+            prolog.debug(u'创建新用户')
             user = User.objects.create_user(username=username, password=password, email=email)
             user.save()
             user = authenticate(username=username, password=password)
@@ -79,7 +80,7 @@ class SignupForm(forms.Form):
             #send email
             send_verify_email.delay(user.email, user.pk)
         else:
-            print u'用户名已存在'
+            prolog.debug(u'用户名已存在')
             raise forms.ValidationError(u'用户名已存在')
 
 

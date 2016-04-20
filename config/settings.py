@@ -14,10 +14,13 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 import os
 import redis
 from mongoengine import *
+import yaml
+import logging
+import logging.config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+YAML_PATH = os.path.join(BASE_DIR, 'config/yaml.conf')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
@@ -178,3 +181,15 @@ EMAIL_HOST = 'smtp.163.com'                   #SMTP
 EMAIL_PORT = 25                               #SMTP
 EMAIL_HOST_USER = 'testtakeout@163.com'       
 EMAIL_HOST_PASSWORD = 'takeout123'      
+
+####################
+# logger
+####################
+print YAML_PATH
+with open(YAML_PATH, 'r') as stream:
+    try:
+        dict_conf = yaml.load(stream)
+    except yaml.YAMLError, exc:
+        print exc
+logging.config.dictConfig(dict_conf)
+prolog = logging.getLogger("pro_log")

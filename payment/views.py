@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 import pdb
+import json
 
 from django.shortcuts import render
+from django.http import JsonResponse
 from django.views.generic import View
 from shopcart.models import ShopCart
 
@@ -22,23 +24,28 @@ class PaymentPendingView(View):
         #购买的物品不会被回收系统
         pass
 
+    def check(self, data):
+        if not data.has_key('cart'):
+            return False
+        return True
+
     def post(self, request, *args, **kwargs):
-        cart_items = request.POST.get('data', [])
+        data = json.loads(request.body)
+        if not self.check(data):
+            return JsonResponse({'error_code': -1})
+
+        cart_items = data['cart']
         user = request.user
         user.id = 1111
         cart_obj = ShopCart.get_cart(user)
-
+        
+        pdb.set_trace()
         for item in cart_items:
             #-----should check cart
-            detail = {
-                title: 'title',
-                price: 'price',
-                img_url: 'img_url',
-            }
-            ShopCart.add_item_to_cart(cart_obj, item['id'], item['qty'], detail)
+            detail = item
+            ShopCart.add_item_to_cart(cart_obj, item['id'], item['buy_count'], detail)
+        #get all item, and then push in order, and cart
 
         cart_obj.save()
-
-        pdb.set_trace()
         return render(request, self.template_name, {})
 

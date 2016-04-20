@@ -38,8 +38,9 @@ class ShopCart(Document):
         return cart_obj
 
     @classmethod
-    def add_item_to_cart(cart_obj, product_id, qty, detail):
-        cart_item = CartItem(qty=qty, product_id=product_id, detail=detail)
+    def add_item_to_cart(cls, cart_obj, product_id, qty, detail):
+        cart_item = CartItem(qty=qty, product_id=product_id, item_detail=detail)
         cart_obj.items.push(cart_item)
+        
 
 

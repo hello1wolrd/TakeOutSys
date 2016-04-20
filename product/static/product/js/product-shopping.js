@@ -86,9 +86,11 @@ app.directive('itemshow', function(){
 	}
 });
 
-app.factory('gocheckout', function($http, $q){
-    return function(url, data){
-
+app.factory('gocheckout', function($http, $q, cart){
+    return function(url, cart){
+      var data = {
+        cart: cart,
+      };
         return $http.post(url, data)
             .then(function(response){
                 console.log(response.data);
@@ -108,10 +110,8 @@ app.directive('cartList', function(){
 			$scope.url = '/payment/pending'
 
 	        $scope.gocheckout = function(page){ 
-	        	data = {
-	        		cart: cart,
-	        	}
-	            gocheckout($scope.url, data)
+
+	            gocheckout($scope.url, cart)
 	                .then(function(data){
 	                    console.log("success");
 	                }, function(notice){
