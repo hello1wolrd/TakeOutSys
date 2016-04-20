@@ -30,16 +30,17 @@
 
 基本规范：
 ====
-1、python编码格式采用PEP8  
-2、非关系数据使用mongodb进行存储  
-3、缓存以及网站统计使用redis
-4、队列使用celery+redis 
-5、基本的用户信息采用MySql进行存储  
-6、前端统一使用grant进行打包  
-7、DJango采用Fat Models, Utility Modules, Thin Views, Stupid Templates 原则  
-8、服务器采用centos + nginx + uwsgi 配置 , uwsgi管理系统使用The Master FIFO（详细配置见文档） 
-9、Django、 python 等相关PyPi使用virtualwrapper进行管理  
-
+<ol>
+<li><h5>python编码格式采用PEP8<h5></li>  
+<li><h5>非关系数据使用mongodb进行存储<h5></li>  
+<li><h5>缓存以及网站统计使用redis<h5></li>
+<li><h5>队列使用celery+redis<h5></li> 
+<li><h5>基本的用户信息采用MySql进行存储<h5></li>  
+<li><h5>前端统一使用grant进行打包<h5></li>  
+<li><h5>DJango采用Fat Models, Utility Modules, Thin Views, Stupid Templates 原则<h5></li>  
+<li><h5>服务器采用centos + nginx + uwsgi 配置 , uwsgi管理系统使用The Master FIFO（详细配置见文档）<h5></li> 
+<li><h5>Django、 python 等相关PyPi使用virtualwrapper进行管理  <h5></li>
+</ol>
 
 安装指令：
 ====
@@ -54,16 +55,16 @@ Pillow==3.2.0
 pymongo==3.2.2
 PyYAML==3.11
 redis==2.10.5
-可以使用fabric一键安装pypi以及系统需求的软件包（我在centos上开发， 所以目前只有centos7版本）
-另外建议安装ipython
+可以使用fabric一键安装pypi以及系统需求的软件包（我在centos上开发， 所以目前只有centos7版本）<br>
+另外建议安装ipython<br>
 
-安装MongoDB
-安装Redis
+安装MongoDB<br>
+安装Redis<br>
 
-启动redis
-启动mongodb
-启动celery 
-启动django程序
+启动redis<br>
+启动mongodb<br>
+启动celery <br>
+启动django程序<br>
 
 ----------
 后台还有很多需要完善

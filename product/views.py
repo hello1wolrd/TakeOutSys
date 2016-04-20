@@ -107,6 +107,7 @@ def custom_perms(perm, group, app, login_url=None, raise_exception=True):
         return False
     return user_passes_test(check_perms, login_url=login_url)
 
+
 class ProductChangeView(View):
     form_class = ProductForm
     image_form = ImageForm

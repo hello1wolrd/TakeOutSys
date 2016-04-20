@@ -47,6 +47,7 @@ def get_require_list():
     require_file.close()
     return require_list
 
+
 def yum_log(str):
     u'''
     log yum error
@@ -90,7 +91,6 @@ def install_prerequisites():
         'zlib-devel',
         'libjpeg-turbo-devel',
     ]
-
     with fabric_exception():
         for item in packages:
             try:
